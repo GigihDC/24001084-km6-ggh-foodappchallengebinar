@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Food App</string>
+    <string name="text_name">Hai Gigih !</string>
+    <string name="text_greeting">Mau makan apa hari ini ?</string>
+    <string name="discount_description">Pesan makanan lewat aplikasi dan dapatkan diskonmu</string>
+    <string name="diskon_tittle">Diskon 30%</string>
+    <string name="tittle_rice">Nasi</string>
+    <string name="tittle_mie">Mie</string>
+    <string name="tittle_snack">Snack</string>
+    <string name="tittle_drink">Minuman</string>
+    <string name="tittle_ice_cream">Es Krim</string>
+    <string name="list_menu">List Menu Makanan</string>
+    <string name="category_tittle">Category</string>
+    <string name="tittle_location">Lokasi</string>
+    <string name="resto_address">Jl. BSD Green Office Park Jl. BSD Grand Boulevard, Sampora, BSD, Kabupaten Tangerang, Banten 15345</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_keranjang">Keranjang</string>
+    <string name="menu_riwayat">Riwayat</string>
+    <string name="menu_profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="count_number">1</string>
+    <string name="text_insert_to_cart">Masukkan ke Keranjang</string>
+    <string name="text_habis">~ Habis ~</string>
+</resources>
