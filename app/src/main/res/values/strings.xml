@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Food App</string>
-    <string name="text_name">Hai Gigih !</string>
+    <string name="text_name">Gigih Dwi Cahyo</string>
+    <string name="text_hello">Hai Gigih !</string>
     <string name="text_greeting">Mau makan apa hari ini ?</string>
     <string name="discount_description">Pesan makanan lewat aplikasi dan dapatkan diskonmu</string>
     <string name="diskon_tittle">Diskon 30%</string>
@@ -22,4 +23,11 @@
     <string name="count_number">1</string>
     <string name="text_insert_to_cart">Masukkan ke Keranjang</string>
     <string name="text_habis">~ Habis ~</string>
+    <string name="tittle_profile">My Profile</string>
+    <string name="text_hint_username">Username</string>
+    <string name="text_hint_email">Email</string>
+    <string name="text_email">g.....@gmail.com</string>
+    <string name="text_hint_phone">Telepon</string>
+    <string name="text_phone">0821....</string>
+    <string name="text_edit">Edit</string>
 </resources>
