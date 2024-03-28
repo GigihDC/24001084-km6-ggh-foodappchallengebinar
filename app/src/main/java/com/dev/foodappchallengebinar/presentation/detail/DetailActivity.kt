@@ -1,16 +1,117 @@
 package com.dev.foodappchallengebinar.presentation.detail
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import coil.load
+import com.dev.foodappchallengebinar.data.models.Menu
 import com.dev.foodappchallengebinar.databinding.ActivityDetailBinding
+import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
+import com.dev.foodappchallengebinar.utils.toIndonesianFormat
 
 class DetailActivity : AppCompatActivity() {
+    private lateinit var menu: Menu
     private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
+    }
+
+    private val viewModel: DetailViewModel by viewModels {
+        GenericViewModelFactory.create(
+            DetailViewModel(intent?.extras)
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        bindMenu(viewModel.menu)
+        setClickListener()
+        observeData()
+    }
+
+    private fun setClickListener() {
+        binding.ibBack.setOnClickListener {
+            onBackPressed()
+        }
+        binding.layoutCart.ivMinus.setOnClickListener {
+            viewModel.minus()
+        }
+        binding.layoutCart.ivPlus.setOnClickListener {
+            viewModel.add()
+        }
+        binding.svDetailFood.layoutLocation.cardLocation.setOnClickListener {
+            openLocationOnMaps()
+        }
+//        binding.layoutCart.btnAddToCart.setOnClickListener {
+//            addMenuToCart()
+//        }
+    }
+
+//    private fun addMenuToCart() {
+//        viewModel.addToCart().observe(this) {
+//            it.proceedWhen(
+//                doOnSuccess = {
+//                    Toast.makeText(
+//                        this,
+//                        getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
+//                    ).show()
+//                    finish()
+//                },
+//                doOnError = {
+//                    Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
+//                        .show()
+//                },
+//                doOnLoading = {
+//                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+//                }
+//            )
+//        }
+//    }
+
+    private fun openLocationOnMaps() {
+        val uri = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        intent.setPackage("com.google.android.apps.maps")
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        } else {
+            intent.setPackage(null)
+            startActivity(intent)
+        }
+    }
+
+    private fun bindMenu(menu: Menu?) {
+        this@DetailActivity.menu = intent.getParcelableExtra<Menu>("EXTRAS") ?: return
+        menu?.let { item ->
+            binding.svDetailFood.layoutDetail.tvMenuName.text = menu.name
+            binding.svDetailFood.layoutDetail.tvMenuPrice.text = menu.price.toIndonesianFormat()
+            binding.svDetailFood.ivMenuImage.load(item.imgUrl) {
+                crossfade(true)
+            }
+            binding.svDetailFood.layoutDetail.tvMenuDescription.text = menu.description
+        }
+    }
+
+    private fun observeData() {
+        viewModel.priceLiveData.observe(this) {
+            binding.layoutCart.btnAddToCart.isEnabled = it != 0.0
+            binding.layoutCart.tvMenuPriceCount.text = it.toIndonesianFormat()
+        }
+        viewModel.menuCountLiveData.observe(this) {
+            binding.layoutCart.tvCountNumber.text = it.toString()
+        }
+    }
+
+    companion object {
+        const val EXTRAS = "EXTRAS"
+        fun startActivity(context: Context, menu: Menu) {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(EXTRAS, menu)
+            context.startActivity(intent)
+        }
     }
 }

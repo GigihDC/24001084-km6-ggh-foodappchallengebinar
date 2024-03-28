@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
 
     private fun onItemClick(menu: Menu) {
         val intent = Intent(requireContext(), DetailActivity::class.java)
-        intent.putExtra("menu", menu)
+        intent.putExtra("EXTRAS", menu)
         startActivity(intent)
     }
 
