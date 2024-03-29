@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="8dp"
+        android:background="?attr/colorPrimary"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
@@ -22,6 +23,8 @@
             android:layout_marginHorizontal="16dp"
             android:text="@string/text_title_your_cart"
             android:textAlignment="center"
+            android:textColor="?attr/colorSurface"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
