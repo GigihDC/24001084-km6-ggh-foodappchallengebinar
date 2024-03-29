@@ -8,9 +8,17 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
+import com.dev.foodappchallengebinar.R
+import com.dev.foodappchallengebinar.data.datasource.cart.CartDataSource
+import com.dev.foodappchallengebinar.data.datasource.cart.CartDatabaseDataSource
 import com.dev.foodappchallengebinar.data.models.Menu
+import com.dev.foodappchallengebinar.data.repository.CartRepository
+import com.dev.foodappchallengebinar.data.repository.CartRepositoryImpl
+import com.dev.foodappchallengebinar.data.source.local.database.AppDatabase
 import com.dev.foodappchallengebinar.databinding.ActivityDetailBinding
+import com.dev.foodappchallengebinar.presentation.cart.CartFragment
 import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
+import com.dev.foodappchallengebinar.utils.proceedWhen
 import com.dev.foodappchallengebinar.utils.toIndonesianFormat
 
 class DetailActivity : AppCompatActivity() {
@@ -20,8 +28,11 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private val viewModel: DetailViewModel by viewModels {
+        val db = AppDatabase.getInstance(this)
+        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
+        val rp: CartRepository = CartRepositoryImpl(ds)
         GenericViewModelFactory.create(
-            DetailViewModel(intent?.extras)
+            DetailViewModel(intent?.extras, rp)
         )
     }
 
@@ -46,31 +57,31 @@ class DetailActivity : AppCompatActivity() {
         binding.svDetailFood.layoutLocation.cardLocation.setOnClickListener {
             openLocationOnMaps()
         }
-//        binding.layoutCart.btnAddToCart.setOnClickListener {
-//            addMenuToCart()
-//        }
+        binding.layoutCart.btnAddToCart.setOnClickListener {
+            addMenuToCart()
+        }
     }
 
-//    private fun addMenuToCart() {
-//        viewModel.addToCart().observe(this) {
-//            it.proceedWhen(
-//                doOnSuccess = {
-//                    Toast.makeText(
-//                        this,
-//                        getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
-//                    ).show()
-//                    finish()
-//                },
-//                doOnError = {
-//                    Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
-//                        .show()
-//                },
-//                doOnLoading = {
-//                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
-//                }
-//            )
-//        }
-//    }
+    private fun addMenuToCart() {
+        viewModel.addToCart().observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                },
+                doOnError = {
+                    Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
+                        .show()
+                },
+                doOnLoading = {
+                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
+    }
 
     private fun openLocationOnMaps() {
         val uri = "https://maps.app.goo.gl/h4wQKqaBuXzftGK77"
