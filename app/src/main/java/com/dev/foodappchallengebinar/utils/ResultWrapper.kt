@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 import java.lang.Exception
 
-/**
-Written with love by Muhammad Hermas Yuda Pamungkas
-Github : https://github.com/hermasyp
- **/
 sealed class ResultWrapper<T>(
     val payload: T? = null,
     val message: String? = null,

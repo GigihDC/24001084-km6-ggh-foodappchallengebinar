@@ -67,6 +67,7 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setClickListeners()
         setupList()
         observeData()
     }
@@ -85,6 +86,7 @@ class CartFragment : Fragment() {
                     binding.layoutState.pbLoading.isVisible = true
                     binding.layoutState.tvError.isVisible = false
                     binding.rvCart.isVisible = false
+                    binding.btnCheckout.isVisible = false
                 },
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
