@@ -16,6 +16,8 @@ import com.dev.foodappchallengebinar.data.repository.CategoryRepository
 import com.dev.foodappchallengebinar.data.repository.CategoryRepositoryImpl
 import com.dev.foodappchallengebinar.data.repository.MenuRepository
 import com.dev.foodappchallengebinar.data.repository.MenuRepositoryImpl
+import com.dev.foodappchallengebinar.data.source.local.pref.UserPreference
+import com.dev.foodappchallengebinar.data.source.local.pref.UserPreferenceImpl
 import com.dev.foodappchallengebinar.databinding.FragmentHomeBinding
 import com.dev.foodappchallengebinar.presentation.detail.DetailActivity
 import com.dev.foodappchallengebinar.presentation.home.adapters.category.CategoryAdapter
@@ -25,10 +27,12 @@ import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 
 class HomeFragment : Fragment() {
 
+    private val userPreference: UserPreference by lazy {
+        UserPreferenceImpl(requireContext())
+    }
     private lateinit var binding: FragmentHomeBinding
     private val adapterCategory = CategoryAdapter()
     private var adapterMenu: MenuAdapter? = null
-    private var isGridLayout = true
     private val viewModel: HomeViewModel by viewModels {
         val dataSourceMenu = DummyFoodDataSource()
         val menuRepository: MenuRepository = MenuRepositoryImpl(dataSourceMenu)
@@ -53,19 +57,11 @@ class HomeFragment : Fragment() {
 
     private fun setClickAction() {
         binding.ivListSwitch.setOnClickListener {
-            isGridLayout = !isGridLayout
-            setButtonIcon(isGridLayout)
-            bindMenuList(isGridLayout)
+            val isGridLayout = userPreference.getListMode() == MenuAdapter.MODE_GRID
+            val newListMode = if (isGridLayout) MenuAdapter.MODE_LIST else MenuAdapter.MODE_GRID
+            userPreference.setListMode(newListMode)
+            bindMenuList(newListMode)
         }
-    }
-
-    private fun setButtonIcon(usingGridMode: Boolean) {
-        val iconResChange = if (usingGridMode) {
-            R.drawable.ic_list
-        } else {
-            R.drawable.ic_grid
-        }
-        binding.ivListSwitch.setImageResource(iconResChange)
     }
 
     private fun onItemClick(menu: Menu) {
@@ -80,22 +76,19 @@ class HomeFragment : Fragment() {
     }
 
     private fun setListMenu() {
-        binding.rvMenu.adapter = adapterMenu
-        bindMenuList(isGridLayout)
+        bindMenuList(userPreference.getListMode())
         adapterMenu?.submitData(viewModel.getMenu())
     }
 
-    private fun bindMenuList(isGridLayout: Boolean) {
-        val listMode = if (isGridLayout) MenuAdapter.MODE_GRID else MenuAdapter.MODE_LIST
-        adapterMenu =
-            MenuAdapter(listMode = listMode, listener = object : OnItemClickedListener<Menu> {
-                override fun onItemClicked(item: Menu) {
-                    onItemClick(item)
-                }
-            })
+    private fun bindMenuList(listMode: Int) {
+        adapterMenu = MenuAdapter(listMode = listMode, listener = object : OnItemClickedListener<Menu> {
+            override fun onItemClicked(item: Menu) {
+                onItemClick(item)
+            }
+        })
         binding.rvMenu.apply {
             adapter = this@HomeFragment.adapterMenu
-            layoutManager = GridLayoutManager(requireContext(), if (isGridLayout) 2 else 1)
+            layoutManager = GridLayoutManager(requireContext(), if (listMode == MenuAdapter.MODE_GRID) 2 else 1)
         }
         adapterMenu?.submitData(viewModel.getMenu())
     }
