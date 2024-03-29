@@ -4,15 +4,17 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.dev.foodappchallengebinar.utils.ResultWrapper
 import com.dev.foodappchallengebinar.data.models.Menu
+import com.dev.foodappchallengebinar.data.repository.CartRepository
 import kotlinx.coroutines.Dispatchers
 import java.lang.IllegalStateException
 
 class DetailViewModel (
     private val extras: Bundle?,
-//    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
     val menu = extras?.getParcelable<Menu>(DetailActivity.EXTRAS)
@@ -39,10 +41,10 @@ class DetailViewModel (
         }
     }
 
-//    fun addToCart(): LiveData<ResultWrapper<Boolean>> {
-//        return menu?.let {
-//            val quantity = productCountLiveData.value ?: 0
-//            cartRepository.createCart(it, quantity).asLiveData(Dispatchers.IO)
-//        } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Product not found"))) }
-//    }
+    fun addToCart(): LiveData<ResultWrapper<Boolean>> {
+        return menu?.let {
+            val quantity = menuCountLiveData.value ?: 0
+            cartRepository.createCart(it, quantity).asLiveData(Dispatchers.IO)
+        } ?: liveData { emit(ResultWrapper.Error(IllegalStateException("Product not found"))) }
+    }
 }
