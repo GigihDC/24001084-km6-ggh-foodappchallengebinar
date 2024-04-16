@@ -86,6 +86,7 @@ class CheckoutActivity : AppCompatActivity() {
                 result.proceedWhen(
                     doOnSuccess = {
                         val intent = Intent(this@CheckoutActivity, MainActivity::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(intent)
                     }
                 )
