@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.dev.foodappchallengebinar.R
 import com.dev.foodappchallengebinar.data.datasource.AuthDataSource
 import com.dev.foodappchallengebinar.data.datasource.FirebaseAuthDataSource
@@ -22,7 +21,6 @@ import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 import com.dev.foodappchallengebinar.utils.highLightWord
 import com.dev.foodappchallengebinar.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -87,14 +85,14 @@ class LoginActivity : AppCompatActivity() {
                     binding.pbLoading.isVisible = false
                     navigateToMain()
                     Toast.makeText(
-                        this@LoginActivity, getString(R.string.text_login_success),
+                        this, getString(R.string.text_login_success),
                         Toast.LENGTH_SHORT
                     ).show()
                 },
                 doOnError = {
                     binding.pbLoading.isVisible = false
                     Toast.makeText(
-                        this@LoginActivity, getString(R.string.text_login_failed),
+                        this, getString(R.string.text_login_failed),
                         Toast.LENGTH_SHORT
                     ).show()
                 },

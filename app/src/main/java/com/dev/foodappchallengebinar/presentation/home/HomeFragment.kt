@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.dev.foodappchallengebinar.R
 import com.dev.foodappchallengebinar.data.datasource.category.DummyFoodCategoryDataSource
 import com.dev.foodappchallengebinar.data.datasource.menu.DummyFoodDataSource
 import com.dev.foodappchallengebinar.data.models.Menu
@@ -23,6 +23,7 @@ import com.dev.foodappchallengebinar.presentation.detail.DetailActivity
 import com.dev.foodappchallengebinar.presentation.home.adapters.category.CategoryAdapter
 import com.dev.foodappchallengebinar.presentation.home.adapters.menu.MenuAdapter
 import com.dev.foodappchallengebinar.presentation.home.adapters.menu.OnItemClickedListener
+import com.dev.foodappchallengebinar.presentation.login.LoginActivity
 import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 
 class HomeFragment : Fragment() {
@@ -62,6 +63,30 @@ class HomeFragment : Fragment() {
             userPreference.setListMode(newListMode)
             bindMenuList(newListMode)
         }
+        binding.layoutHeader.btnLogout.setOnClickListener {
+            doLogout()
+        }
+    }
+
+    private fun doLogout() {
+        val dialog = AlertDialog.Builder(requireContext()).setMessage("Apakah kamu ingin logout ?")
+            .setPositiveButton(
+                "Ya"
+            ) { dialog, id ->
+                navigateToLogin()
+            }
+            .setNegativeButton(
+                "Tidak"
+            ) { dialog, id ->
+                dialog.dismiss()
+            }.create()
+        dialog.show()
+    }
+
+    private fun navigateToLogin() {
+        startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        })
     }
 
     private fun onItemClick(menu: Menu) {
@@ -81,14 +106,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun bindMenuList(listMode: Int) {
-        adapterMenu = MenuAdapter(listMode = listMode, listener = object : OnItemClickedListener<Menu> {
-            override fun onItemClicked(item: Menu) {
-                onItemClick(item)
-            }
-        })
+        adapterMenu =
+            MenuAdapter(listMode = listMode, listener = object : OnItemClickedListener<Menu> {
+                override fun onItemClicked(item: Menu) {
+                    onItemClick(item)
+                }
+            })
         binding.rvMenu.apply {
             adapter = this@HomeFragment.adapterMenu
-            layoutManager = GridLayoutManager(requireContext(), if (listMode == MenuAdapter.MODE_GRID) 2 else 1)
+            layoutManager =
+                GridLayoutManager(requireContext(), if (listMode == MenuAdapter.MODE_GRID) 2 else 1)
         }
         adapterMenu?.submitData(viewModel.getMenu())
     }
