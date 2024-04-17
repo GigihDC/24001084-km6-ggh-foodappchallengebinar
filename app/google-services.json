@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253473030897",
+    "project_id": "food-app-binar-project",
+    "storage_bucket": "food-app-binar-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253473030897:android:99301e9a970d9604415f50",
+        "android_client_info": {
+          "package_name": "com.dev.foodappchallengebinar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHrUrRrtQ1ZOw1_OyjMgt83-ZbhRZOGDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

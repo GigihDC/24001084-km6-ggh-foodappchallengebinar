@@ -51,4 +51,19 @@
     <string name="text_order_successful">Pesanan Berhasil</string>
     <string name="text_thank_you">Terima Kasih telah Berbelanja!</string>
     <string name="text_back_to_home">Kembali ke Home</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="text_log_in">Login</string>
+    <string name="text_not_registered">Belum Terdaftar?</string>
+    <string name="text_register_here">Daftar Disini !</string>
+    <string name="text_error_email_empty">Email tidak boleh kosong !</string>
+    <string name="text_error_email_invalid">Masukkan format email yang benar !</string>
+    <string name="text_error_password_empty">Password tidak boleh kosong !</string>
+    <string name="text_error_password_less_than_8_char">Password kurang dari 8 karakter</string>
+    <string name="text_login_failed">Email atau Password Salah !!\nSilahkan Coba Lagi !!</string>
+    <string name="text_login_success">Anda Berhasil Login</string>
+    <string name="text_welcome">Selamat Datang</string>
+    <string name="text_reminder_to_login">Silahkan Login Terlebih Dahulu</string>
 </resources>

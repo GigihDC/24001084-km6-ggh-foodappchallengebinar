@@ -97,6 +97,7 @@ class CartFragment : Fragment() {
                         adapter.submitData(carts)
                         binding.tvTotalPrice.text = totalPrice.toIndonesianFormat()
                     }
+                    binding.btnCheckout.isVisible = true
                 },
                 doOnError = {
                     binding.layoutState.root.isVisible = true
