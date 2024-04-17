@@ -7,7 +7,7 @@ import coil.load
 import com.dev.foodappchallengebinar.data.models.Category
 import com.dev.foodappchallengebinar.databinding.ItemCategoryBinding
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(function: () -> Unit) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private val data = mutableListOf<Category>()
 

@@ -103,7 +103,8 @@ class DetailActivity : AppCompatActivity() {
             binding.svDetailFood.ivMenuImage.load(item.imgUrl) {
                 crossfade(true)
             }
-            binding.svDetailFood.layoutDetail.tvMenuDescription.text = menu.description
+            binding.svDetailFood.layoutDetail.tvMenuDescription.text = menu.desc
+            binding.svDetailFood.layoutLocation.tvRestoAddress.text = menu.address
         }
     }
 
