@@ -3,14 +3,26 @@ package com.dev.foodappchallengebinar.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.dev.foodappchallengebinar.R
+import com.dev.foodappchallengebinar.data.datasource.AuthDataSource
+import com.dev.foodappchallengebinar.data.datasource.FirebaseAuthDataSource
+import com.dev.foodappchallengebinar.data.repository.UserRepository
+import com.dev.foodappchallengebinar.data.repository.UserRepositoryImpl
+import com.dev.foodappchallengebinar.data.source.firebase.FirebaseService
+import com.dev.foodappchallengebinar.data.source.firebase.FirebaseServiceImpl
 import com.dev.foodappchallengebinar.databinding.ActivityLoginBinding
 import com.dev.foodappchallengebinar.presentation.main.MainActivity
 import com.dev.foodappchallengebinar.presentation.register.RegisterActivity
+import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 import com.dev.foodappchallengebinar.utils.highLightWord
+import com.dev.foodappchallengebinar.utils.proceedWhen
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,12 +30,18 @@ class LoginActivity : AppCompatActivity() {
         ActivityLoginBinding.inflate(layoutInflater)
     }
 
+    private val viewModel: LoginViewModel by viewModels {
+        val s: FirebaseService = FirebaseServiceImpl()
+        val ds: AuthDataSource = FirebaseAuthDataSource(s)
+        val r: UserRepository = UserRepositoryImpl(ds)
+        GenericViewModelFactory.create(LoginViewModel(r))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         setupForm()
         setClickListeners()
-        observeResult()
     }
 
     private fun setupForm() {
@@ -31,10 +49,6 @@ class LoginActivity : AppCompatActivity() {
             tilEmail.isVisible = true
             tilPassword.isVisible = true
         }
-    }
-
-    private fun observeResult() {
-        //todo : observe login result
     }
 
     private fun navigateToMain() {
@@ -62,7 +76,32 @@ class LoginActivity : AppCompatActivity() {
         if (isFormValid()) {
             val email = binding.layoutForm.etEmail.text.toString().trim()
             val password = binding.layoutForm.etPassword.text.toString().trim()
-            // todo : login
+            proceedLogin(email, password)
+        }
+    }
+
+    private fun proceedLogin(email: String, password: String) {
+        viewModel.doLogin(email, password).observe(this) {
+            it.proceedWhen(
+                doOnSuccess = {
+                    binding.pbLoading.isVisible = false
+                    navigateToMain()
+                    Toast.makeText(
+                        this@LoginActivity, getString(R.string.text_login_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                doOnError = {
+                    binding.pbLoading.isVisible = false
+                    Toast.makeText(
+                        this@LoginActivity, getString(R.string.text_login_failed),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },
+                doOnLoading = {
+                    binding.pbLoading.isVisible = true
+                }
+            )
         }
     }
 

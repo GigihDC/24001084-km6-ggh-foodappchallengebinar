@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
     @Throws(exceptionClasses = [Exception::class])
-    suspend fun doLogin(email: String, password: String): Flow<ResultWrapper<Boolean>>
+    fun doLogin(email: String, password: String): Flow<ResultWrapper<Boolean>>
     @Throws(exceptionClasses = [Exception::class])
     fun doRegister(email: String, fullName: String, password: String): Flow<ResultWrapper<Boolean>>
     fun updateProfile(fullName: String? = null): Flow<ResultWrapper<Boolean>>
@@ -21,7 +21,7 @@ interface UserRepository {
 }
 
 class UserRepositoryImpl(private val dataSource: AuthDataSource) : UserRepository {
-    override suspend fun doLogin(email: String, password: String): Flow<ResultWrapper<Boolean>> {
+    override fun doLogin(email: String, password: String): Flow<ResultWrapper<Boolean>> {
         return proceedFlow { dataSource.doLogin(email, password) }
     }
 

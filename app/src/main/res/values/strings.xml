@@ -62,4 +62,8 @@
     <string name="text_error_email_invalid">Masukkan format email yang benar !</string>
     <string name="text_error_password_empty">Password tidak boleh kosong !</string>
     <string name="text_error_password_less_than_8_char">Password kurang dari 8 karakter</string>
+    <string name="text_login_failed">Email atau Password Salah !!\nSilahkan Coba Lagi !!</string>
+    <string name="text_login_success">Anda Berhasil Login</string>
+    <string name="text_welcome">Selamat Datang</string>
+    <string name="text_reminder_to_login">Silahkan Login Terlebih Dahulu</string>
 </resources>
