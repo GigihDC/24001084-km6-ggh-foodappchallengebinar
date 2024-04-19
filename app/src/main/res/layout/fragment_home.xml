@@ -43,17 +43,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/layout_banner" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_category"
+        <FrameLayout
+            android:id="@+id/fl_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_category_tittle"
-            tools:listitem="@layout/item_category" />
+            app:layout_constraintTop_toBottomOf="@id/tv_category_tittle">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_category" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/pb_loading_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_menu_tittle"
@@ -64,31 +79,46 @@
             android:text="@string/list_menu"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_category" />
+            app:layout_constraintTop_toBottomOf="@id/fl_category" />
 
         <ImageView
             android:id="@+id/iv_list_switch"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/ic_list"
-            app:tint="?attr/colorOnSurface"
             app:layout_constraintBottom_toBottomOf="@id/tv_menu_tittle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_menu_tittle" />
+            app:layout_constraintTop_toTopOf="@id/tv_menu_tittle"
+            app:tint="?attr/colorOnSurface"
+            tools:src="@drawable/ic_list"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_menu"
+        <FrameLayout
+            android:id="@+id/fl_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_list_switch"
-            app:spanCount="2"
-            tools:listitem="@layout/item_menu_grid" />
+            app:layout_constraintTop_toBottomOf="@id/iv_list_switch">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_menu_grid" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/pb_loading_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:indeterminate="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tv_end"
@@ -101,7 +131,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_menu" />
+            app:layout_constraintTop_toBottomOf="@id/fl_menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

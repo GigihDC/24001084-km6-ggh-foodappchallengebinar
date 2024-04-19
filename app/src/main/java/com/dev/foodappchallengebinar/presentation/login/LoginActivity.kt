@@ -65,9 +65,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun navigateToRegister() {
-        startActivity(Intent(this, RegisterActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        })
+        startActivity(Intent(this, RegisterActivity::class.java))
     }
 
     private fun doLogin() {

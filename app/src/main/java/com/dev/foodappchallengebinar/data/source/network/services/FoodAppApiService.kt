@@ -2,11 +2,15 @@ package com.dev.foodappchallengebinar.data.source.network.services
 
 import com.dev.foodappchallengebinar.BuildConfig
 import com.dev.foodappchallengebinar.data.source.network.model.category.CategoriesResponse
+import com.dev.foodappchallengebinar.data.source.network.model.checkout.CheckoutRequestPayload
+import com.dev.foodappchallengebinar.data.source.network.model.checkout.CheckoutResponse
 import com.dev.foodappchallengebinar.data.source.network.model.menu.FoodResponse
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
@@ -16,7 +20,10 @@ interface FoodAppApiService {
     suspend fun getCategories(): CategoriesResponse
 
     @GET("listmenu")
-    suspend fun getFood(@Query("category") category: String? = null): FoodResponse
+    suspend fun getFood(@Query("c") category: String? = null): FoodResponse
+
+    @POST("order")
+    suspend fun createOrder(@Body payload: CheckoutRequestPayload): CheckoutResponse
 
     companion object {
         @JvmStatic

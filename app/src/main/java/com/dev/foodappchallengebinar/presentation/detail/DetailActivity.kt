@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import coil.load
 import com.dev.foodappchallengebinar.R
 import com.dev.foodappchallengebinar.data.datasource.cart.CartDataSource
@@ -66,6 +67,7 @@ class DetailActivity : AppCompatActivity() {
         viewModel.addToCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
+                    binding.pbLoading.isVisible = false
                     Toast.makeText(
                         this,
                         getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
@@ -73,11 +75,12 @@ class DetailActivity : AppCompatActivity() {
                     finish()
                 },
                 doOnError = {
+                    binding.pbLoading.isVisible = false
                     Toast.makeText(this, getString(R.string.add_to_cart_failed), Toast.LENGTH_SHORT)
                         .show()
                 },
                 doOnLoading = {
-                    Toast.makeText(this, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                    binding.pbLoading.isVisible = true
                 }
             )
         }

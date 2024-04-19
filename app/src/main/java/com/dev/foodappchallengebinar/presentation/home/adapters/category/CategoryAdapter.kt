@@ -7,22 +7,30 @@ import coil.load
 import com.dev.foodappchallengebinar.data.models.Category
 import com.dev.foodappchallengebinar.databinding.ItemCategoryBinding
 
-class CategoryAdapter(function: () -> Unit) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(
+    private val itemClick: (Category) -> Unit
+) :
+    RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private val data = mutableListOf<Category>()
 
     fun submitData(items: List<Category>) {
-        data.addAll(items)
+        items.forEach { newItem ->
+            if (!data.contains(newItem)) {
+                data.add(newItem)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-        return CategoryViewHolder(
-            ItemCategoryBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+
+        val binding = ItemCategoryBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
+        return CategoryViewHolder(binding, itemClick)
+
     }
 
     override fun getItemCount(): Int = data.size
@@ -31,12 +39,18 @@ class CategoryAdapter(function: () -> Unit) : RecyclerView.Adapter<CategoryAdapt
         holder.bind(data[position])
     }
 
-    class CategoryViewHolder(private val binding: ItemCategoryBinding) :
+    class CategoryViewHolder(
+        private val binding: ItemCategoryBinding,
+        val itemClick: (Category) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category) {
-            binding.tvCategoryName.text = item.name
-            binding.ivCategoryImage.load(item.imgUrl) {
-                crossfade(true)
+            with(item) {
+                binding.tvCategoryName.text = item.name
+                binding.ivCategoryImage.load(item.imgUrl) {
+                    crossfade(true)
+                }
+                itemView.setOnClickListener { itemClick(this) }
             }
         }
     }
