@@ -181,7 +181,7 @@ class ProfileFragment : Fragment() {
                 },
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
-                    binding.btnEdit.isVisible = false
+                    binding.btnEdit.isVisible = true
                 }
             )
         }
