@@ -1,8 +1,7 @@
 package com.dev.foodappchallengebinar.data.models
 
 data class Profile(
-    val username: String,
-    val email: String,
-    val phone: String,
+    val fullName: String,
+    val password: String,
     val profileImg: String
 )

@@ -1,5 +1,6 @@
 package com.dev.foodappchallengebinar.data.datasource
 
+import android.net.Uri
 import com.dev.foodappchallengebinar.data.models.User
 import com.dev.foodappchallengebinar.data.models.toUser
 import com.dev.foodappchallengebinar.data.source.firebase.FirebaseService
@@ -9,7 +10,7 @@ interface AuthDataSource {
     suspend fun doLogin(email: String, password: String): Boolean
     @Throws(exceptionClasses = [Exception::class])
     suspend fun doRegister(email: String, fullName: String, password: String): Boolean
-    suspend fun updateProfile(fullName: String? = null): Boolean
+    suspend fun updateProfile(fullName: String? = null, photoUri: Uri?): Boolean
     suspend fun updatePassword(newPassword: String): Boolean
     suspend fun updateEmail(newEmail: String): Boolean
     fun requestChangePasswordByEmail(): Boolean
@@ -27,7 +28,7 @@ class FirebaseAuthDataSource(private val service: FirebaseService) : AuthDataSou
         return service.doRegister(email, fullName, password)
     }
 
-    override suspend fun updateProfile(fullName: String?): Boolean {
+    override suspend fun updateProfile(fullName: String?, photoUri: Uri?): Boolean {
         return service.updateProfile(fullName)
     }
 

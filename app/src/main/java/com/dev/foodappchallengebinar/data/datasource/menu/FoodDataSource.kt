@@ -1,7 +1,10 @@
 package com.dev.foodappchallengebinar.data.datasource.menu
 
-import com.dev.foodappchallengebinar.data.models.Menu
+import com.dev.foodappchallengebinar.data.source.network.model.checkout.CheckoutRequestPayload
+import com.dev.foodappchallengebinar.data.source.network.model.checkout.CheckoutResponse
+import com.dev.foodappchallengebinar.data.source.network.model.menu.FoodResponse
 
 interface FoodDataSource {
-    fun getFoodDetail(): List<Menu>
+    suspend fun getFoodDetail(categoryName: String? = null): FoodResponse
+    suspend fun createOrder(payload : CheckoutRequestPayload) : CheckoutResponse
 }

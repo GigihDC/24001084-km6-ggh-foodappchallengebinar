@@ -1,7 +1,7 @@
 package com.dev.foodappchallengebinar.data.datasource.category
 
-import com.dev.foodappchallengebinar.data.models.Category
+import com.dev.foodappchallengebinar.data.source.network.model.category.CategoriesResponse
 
 interface FoodCategoryDataSource {
-    fun getFoodCategory(): List<Category>
+    suspend fun getFoodCategory(): CategoriesResponse
 }

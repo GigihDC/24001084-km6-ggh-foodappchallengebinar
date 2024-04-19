@@ -75,4 +75,19 @@
     <string name="text_register_success">Anda Telah Terdaftar\nSilahkan Login</string>
     <string name="text_register_failed">Pendaftaran Gagal</string>
     <string name="text_logout">Logout</string>
+    <string name="text_error_checkout">Checkout Error</string>
+    <string name="text_want_logout">Apakah kamu ingin logout ?</string>
+    <string name="text_alert">Peringatan</string>
+    <string name="text_yes">Ya</string>
+    <string name="text_no">Tidak</string>
+    <string name="text_please_login">Harap login terlebih dahulu untuk melanjutkan.</string>
+    <string name="text_hint_nama_lengkap">Nama Lengkap</string>
+    <string name="text_hint_password">Password</string>
+    <string name="text_request_change_password">Request Ganti Password</string>
+    <string name="text_okay">Okay</string>
+    <string name="text_request_success">Permintaan ganti password terkirim ke emailmu : %1$s tolong cek email dan spam</string>
+    <string name="text_change_photo_profile_success">Change Photo Profile Success !</string>
+    <string name="text_change_photo_profile_failed">Change Photo Profile Failed !</string>
+    <string name="change_profile_data_success">Change Profile data Success !</string>
+    <string name="text_change_profile_data_failed">Change Profile data Failed !</string>
 </resources>
