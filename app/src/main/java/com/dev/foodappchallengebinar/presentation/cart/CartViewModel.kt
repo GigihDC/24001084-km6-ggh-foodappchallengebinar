@@ -5,16 +5,13 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dev.foodappchallengebinar.data.models.Cart
 import com.dev.foodappchallengebinar.data.repository.CartRepository
-import com.dev.foodappchallengebinar.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class CartViewModel(
-    private val userRepository: UserRepository,
-    private val cartRepository: CartRepository) : ViewModel() {
-    fun isUserLoggedIn() = userRepository.isLoggedIn()
+class CartViewModel(private val cartRepository: CartRepository) : ViewModel() {
     fun getAllCarts() = cartRepository.getUserCartData().asLiveData(Dispatchers.IO)
+
     fun decreaseCart(item: Cart) {
         viewModelScope.launch(Dispatchers.IO) {
             cartRepository.decreaseCart(item).collect()
@@ -38,5 +35,4 @@ class CartViewModel(
             cartRepository.setCartNotes(item).collect()
         }
     }
-
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dev.foodappchallengebinar.data.models.Profile
 import com.dev.foodappchallengebinar.data.repository.UserRepository
 import com.dev.foodappchallengebinar.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +18,6 @@ class ProfileViewModel(private val userRepository: UserRepository) : ViewModel()
     private val _changeProfileResult = MutableLiveData<ResultWrapper<Boolean>>()
     val changeProfileResult: LiveData<ResultWrapper<Boolean>>
         get() = _changeProfileResult
-    val profileData = MutableLiveData(
-        Profile(
-            fullName = "Gigih Dwi Cahyo",
-            password = "085238920982",
-            profileImg = "https://avatars.githubusercontent.com/u/21256595?v=4"
-        )
-    )
 
     fun getCurrentUser() = userRepository.getCurrentUser()
 

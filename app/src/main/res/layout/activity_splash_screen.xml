@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/logoUtama"
+        android:id="@+id/iv_logo_main"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/img_logo_app"
@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/logoUtamaHitam"
+        android:id="@+id/iv_logo_black"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/img_logo_app"

@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class FoodResponse(
     @SerializedName("status")
-    val status : Boolean?,
+    val status: Boolean?,
     @SerializedName("code")
-    val code : Int?,
+    val code: Int?,
     @SerializedName("message")
-    val message : String?,
+    val message: String?,
     @SerializedName("data")
-    val data : List<FoodItemResponse>?,
+    val data: List<FoodItemResponse>?,
 )

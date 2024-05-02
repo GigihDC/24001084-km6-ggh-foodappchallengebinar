@@ -32,7 +32,7 @@
             android:name=".presentation.checkout.CheckoutActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.splash_screen.SplashScreenActivity"
+            android:name=".presentation.splash.SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

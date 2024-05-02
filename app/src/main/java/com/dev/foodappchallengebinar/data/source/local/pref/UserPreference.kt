@@ -7,13 +7,15 @@ import com.dev.foodappchallengebinar.utils.SharedPreferenceUtils.set
 
 interface UserPreference {
     fun isUsingDarkMode(): Boolean
+
     fun setUsingDarkMode(isUsingDarkMode: Boolean)
+
     fun getListMode(): Int
+
     fun setListMode(listMode: Int)
 }
 
 class UserPreferenceImpl(private val context: Context) : UserPreference {
-
     private val pref = SharedPreferenceUtils.createPreference(context, PREF_NAME)
 
     override fun isUsingDarkMode(): Boolean = pref.getBoolean(KEY_IS_USING_DARK_MODE, false)

@@ -4,7 +4,7 @@ import com.dev.foodappchallengebinar.data.source.network.model.category.Categori
 import com.dev.foodappchallengebinar.data.source.network.services.FoodAppApiService
 
 class FoodCategoryApiDataSource(
-    private val service: FoodAppApiService
+    private val service: FoodAppApiService,
 ) : FoodCategoryDataSource {
     override suspend fun getFoodCategory(): CategoriesResponse {
         return service.getCategories()

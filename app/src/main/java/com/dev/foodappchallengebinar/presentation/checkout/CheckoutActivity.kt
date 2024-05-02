@@ -1,57 +1,34 @@
 package com.dev.foodappchallengebinar.presentation.checkout
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.dev.foodappchallengebinar.R
-import com.dev.foodappchallengebinar.data.datasource.cart.CartDataSource
-import com.dev.foodappchallengebinar.data.datasource.cart.CartDatabaseDataSource
-import com.dev.foodappchallengebinar.data.datasource.menu.FoodApiDataSource
-import com.dev.foodappchallengebinar.data.datasource.menu.FoodDataSource
-import com.dev.foodappchallengebinar.data.repository.CartRepository
-import com.dev.foodappchallengebinar.data.repository.CartRepositoryImpl
-import com.dev.foodappchallengebinar.data.repository.MenuRepository
-import com.dev.foodappchallengebinar.data.repository.MenuRepositoryImpl
-import com.dev.foodappchallengebinar.data.source.local.database.AppDatabase
-import com.dev.foodappchallengebinar.data.source.network.services.FoodAppApiService
 import com.dev.foodappchallengebinar.databinding.ActivityCheckoutBinding
 import com.dev.foodappchallengebinar.presentation.checkout.adapter.PriceListAdapter
 import com.dev.foodappchallengebinar.presentation.common.adapter.CartListAdapter
-import com.dev.foodappchallengebinar.presentation.main.MainActivity
-import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 import com.dev.foodappchallengebinar.utils.proceedWhen
 import com.dev.foodappchallengebinar.utils.toIndonesianFormat
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CheckoutActivity : AppCompatActivity() {
-
     private val binding: ActivityCheckoutBinding by lazy {
         ActivityCheckoutBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: CheckoutViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val s = FoodAppApiService.invoke()
-        val pds: FoodDataSource = FoodApiDataSource(s)
-        val pr: MenuRepository = MenuRepositoryImpl(pds)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(CheckoutViewModel(rp, pr))
-    }
+    private val checkoutViewModel: CheckoutViewModel by viewModel()
 
     private val adapter: CartListAdapter by lazy {
         CartListAdapter()
     }
     private val priceItemAdapter: PriceListAdapter by lazy {
         PriceListAdapter {
-
         }
     }
 
@@ -88,21 +65,20 @@ class CheckoutActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
     private fun deleteAllCarts() {
         lifecycleScope.launch {
-            viewModel.deleteAll().collect { result ->
+            checkoutViewModel.deleteAll().collect { result ->
                 result.proceedWhen(
                     doOnSuccess = {
                         finish()
-                    }
+                    },
                 )
             }
         }
     }
 
     private fun doCheckout() {
-        viewModel.checkoutCart().observe(this) {
+        checkoutViewModel.checkoutCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.layoutState.root.isVisible = false
@@ -127,9 +103,9 @@ class CheckoutActivity : AppCompatActivity() {
                     Toast.makeText(
                         this,
                         getString(R.string.text_error_checkout),
-                        Toast.LENGTH_SHORT
+                        Toast.LENGTH_SHORT,
                     ).show()
-                }
+                },
             )
         }
     }
@@ -140,7 +116,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.checkoutData.observe(this) { result ->
+        checkoutViewModel.checkoutData.observe(this) { result ->
             result.proceedWhen(doOnSuccess = {
                 binding.layoutState.root.isVisible = false
                 binding.layoutState.pbLoading.isVisible = false

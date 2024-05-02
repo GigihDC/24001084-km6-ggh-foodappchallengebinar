@@ -1,7 +1,6 @@
 package com.dev.foodappchallengebinar.data.models
 
 import android.os.Parcelable
-import androidx.annotation.DrawableRes
 import kotlinx.parcelize.Parcelize
 import java.util.UUID
 
@@ -12,5 +11,5 @@ data class Menu(
     var price: Double,
     var name: String,
     var desc: String,
-    var address: String
+    var address: String,
 ) : Parcelable

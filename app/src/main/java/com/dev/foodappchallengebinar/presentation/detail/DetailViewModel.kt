@@ -6,26 +6,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.dev.foodappchallengebinar.utils.ResultWrapper
 import com.dev.foodappchallengebinar.data.models.Menu
 import com.dev.foodappchallengebinar.data.repository.CartRepository
+import com.dev.foodappchallengebinar.utils.ResultWrapper
 import kotlinx.coroutines.Dispatchers
 import java.lang.IllegalStateException
 
-class DetailViewModel (
+class DetailViewModel(
     private val extras: Bundle?,
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
 ) : ViewModel() {
-
     val menu = extras?.getParcelable<Menu>(DetailActivity.EXTRAS)
 
-    val menuCountLiveData = MutableLiveData(0).apply {
-        postValue(0)
-    }
+    val menuCountLiveData =
+        MutableLiveData(0).apply {
+            postValue(0)
+        }
 
-    val priceLiveData = MutableLiveData<Double>().apply {
-        postValue(0.0)
-    }
+    val priceLiveData =
+        MutableLiveData<Double>().apply {
+            postValue(0.0)
+        }
 
     fun add() {
         val count = (menuCountLiveData.value ?: 0) + 1

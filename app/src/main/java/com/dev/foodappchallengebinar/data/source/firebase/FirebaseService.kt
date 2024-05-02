@@ -9,37 +9,61 @@ import kotlinx.coroutines.tasks.await
 
 interface FirebaseService {
     @Throws(exceptionClasses = [Exception::class])
-    suspend fun doLogin(email: String, password: String): Boolean
+    suspend fun doLogin(
+        email: String,
+        password: String,
+    ): Boolean
+
     @Throws(exceptionClasses = [Exception::class])
-    suspend fun doRegister(email: String, fullName: String, password: String): Boolean
+    suspend fun doRegister(
+        email: String,
+        fullName: String,
+        password: String,
+    ): Boolean
+
     suspend fun updateProfile(fullName: String? = null): Boolean
+
     suspend fun updatePassword(newPassword: String): Boolean
+
     suspend fun updateEmail(newEmail: String): Boolean
+
     fun requestChangePasswordByEmail(): Boolean
+
     fun doLogout(): Boolean
+
     fun isLoggedIn(): Boolean
+
     fun getCurrentUser(): FirebaseUser?
 }
 
 class FirebaseServiceImpl() : FirebaseService {
     private val firebaseAuth = FirebaseAuth.getInstance()
-    override suspend fun doLogin(email: String, password: String): Boolean {
+
+    override suspend fun doLogin(
+        email: String,
+        password: String,
+    ): Boolean {
         val loginResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
         return loginResult.user != null
     }
 
-    override suspend fun doRegister(email: String, fullName: String, password: String): Boolean {
+    override suspend fun doRegister(
+        email: String,
+        fullName: String,
+        password: String,
+    ): Boolean {
         val registerResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
         registerResult.user?.updateProfile(
             userProfileChangeRequest {
-                displayName = fullName }
+                displayName = fullName
+            },
         )?.await()
         return registerResult.user != null
     }
 
     override suspend fun updateProfile(fullName: String?): Boolean {
         getCurrentUser()?.updateProfile(
-            userProfileChangeRequest { fullName?.let{displayName = fullName} }
+            userProfileChangeRequest { fullName?.let { displayName = fullName } },
         )?.await()
         return true
     }
@@ -55,7 +79,7 @@ class FirebaseServiceImpl() : FirebaseService {
     }
 
     override fun requestChangePasswordByEmail(): Boolean {
-        getCurrentUser()?.email?.let{
+        getCurrentUser()?.email?.let {
             firebaseAuth.sendPasswordResetEmail(it)
         }
         return true
