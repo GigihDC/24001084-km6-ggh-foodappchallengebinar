@@ -48,6 +48,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?,
     ) {
         super.onViewCreated(view, savedInstanceState)
+        showUserData()
         setButtonIcon()
         observeCategoryData()
         observeMenuData()
@@ -80,6 +81,12 @@ class HomeFragment : Fragment() {
         val intent = Intent(requireContext(), DetailActivity::class.java)
         intent.putExtra("EXTRAS", menu)
         startActivity(intent)
+    }
+
+    private fun showUserData() {
+        homeViewModel.getCurrentUser()?.let {
+            binding.layoutHeader.tvName.setText(it.fullName)
+        }
     }
 
     private fun observeMenuData(categoryName: String? = null) {
