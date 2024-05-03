@@ -10,10 +10,11 @@ import kotlinx.coroutines.Dispatchers
 class HomeViewModel(
     private val categoryRepository: CategoryRepository,
     private val menuRepository: MenuRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : ViewModel() {
     fun getMenu(categoryName: String? = null) = menuRepository.getMenu(categoryName).asLiveData(Dispatchers.IO)
 
     fun getCategories() = categoryRepository.getCategory().asLiveData(Dispatchers.IO)
+
     fun getCurrentUser() = userRepository.getCurrentUser()
 }
