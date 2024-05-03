@@ -1,7 +1,7 @@
 package com.dev.foodappchallengebinar.data.source.network.model.category
 
-import com.google.gson.annotations.SerializedName
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class CategoriesResponse(
@@ -12,5 +12,5 @@ data class CategoriesResponse(
     @SerializedName("message")
     val message: String?,
     @SerializedName("status")
-    val status: Boolean?
+    val status: Boolean?,
 )

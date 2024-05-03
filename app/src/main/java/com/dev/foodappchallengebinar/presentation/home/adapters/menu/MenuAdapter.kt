@@ -12,7 +12,7 @@ import com.dev.foodappchallengebinar.databinding.ItemMenuListBinding
 
 class MenuAdapter(
     private val listener: OnItemClickedListener<Menu>,
-    private val listMode: Int = MODE_GRID
+    private val listMode: Int = MODE_GRID,
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         const val MODE_LIST = 0
@@ -20,21 +20,33 @@ class MenuAdapter(
     }
 
     private val asyncDataDiffer =
-        AsyncListDiffer<Menu>(this, object : DiffUtil.ItemCallback<Menu>() {
-            override fun areItemsTheSame(oldItem: Menu, newItem: Menu): Boolean {
-                return oldItem.name == newItem.name
-            }
+        AsyncListDiffer<Menu>(
+            this,
+            object : DiffUtil.ItemCallback<Menu>() {
+                override fun areItemsTheSame(
+                    oldItem: Menu,
+                    newItem: Menu,
+                ): Boolean {
+                    return oldItem.name == newItem.name
+                }
 
-            override fun areContentsTheSame(oldItem: Menu, newItem: Menu): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
-            }
-        })
+                override fun areContentsTheSame(
+                    oldItem: Menu,
+                    newItem: Menu,
+                ): Boolean {
+                    return oldItem.hashCode() == newItem.hashCode()
+                }
+            },
+        )
 
     fun submitData(data: List<Menu>) {
         asyncDataDiffer.submitList(data)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return if (listMode == MODE_GRID) {
             val binding = ItemMenuGridBinding.inflate(inflater, parent, false)
@@ -47,7 +59,10 @@ class MenuAdapter(
 
     override fun getItemCount(): Int = asyncDataDiffer.currentList.size
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+    ) {
         if (holder is ViewHolderBinder<*>) {
             (holder as ViewHolderBinder<Menu>).bind(asyncDataDiffer.currentList[position])
         }

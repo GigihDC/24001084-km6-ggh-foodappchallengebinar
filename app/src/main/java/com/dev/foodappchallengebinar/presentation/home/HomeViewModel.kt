@@ -8,14 +8,13 @@ import com.dev.foodappchallengebinar.data.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 
 class HomeViewModel(
-    private val userRepository: UserRepository,
     private val categoryRepository: CategoryRepository,
-    private val menuRepository: MenuRepository
+    private val menuRepository: MenuRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
-    fun isUserLoggedIn(): Boolean = userRepository.isLoggedIn()
-    fun doLogout(): Boolean = userRepository.doLogout()
-    fun getMenu(categoryName: String? = null) =
-        menuRepository.getMenu(categoryName).asLiveData(Dispatchers.IO)
+    fun getMenu(categoryName: String? = null) = menuRepository.getMenu(categoryName).asLiveData(Dispatchers.IO)
 
     fun getCategories() = categoryRepository.getCategory().asLiveData(Dispatchers.IO)
+
+    fun getCurrentUser() = userRepository.getCurrentUser()
 }

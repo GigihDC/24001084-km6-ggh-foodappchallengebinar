@@ -6,7 +6,7 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000"
+        motion:duration="1500"
         motion:autoTransition="animateToEnd">
        <KeyFrameSet>
        </KeyFrameSet>
@@ -24,7 +24,7 @@
             android:scaleX="10"
             android:scaleY="10" />
         <Constraint
-            android:id="@+id/logoUtama"
+            android:id="@+id/iv_logo_main"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -36,7 +36,7 @@
             android:scaleY="0"
             android:alpha="1" />
         <Constraint
-            android:id="@+id/logoUtamaHitam"
+            android:id="@+id/iv_logo_black"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintLeft_toRightOf="@+id/logoUtama"
+            motion:layout_constraintLeft_toRightOf="@+id/iv_logo_main"
             android:layout_width="wrap_content"
             android:id="@+id/imageView5"
             android:scaleX="0.3"
@@ -71,7 +71,7 @@
             android:scaleX="0"
             android:scaleY="0" />
         <Constraint
-            android:id="@+id/logoUtama"
+            android:id="@+id/iv_logo_main"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -84,7 +84,7 @@
             android:alpha="1"
             motion:transitionEasing="cubic(1,0,1,0)" />
         <Constraint
-            android:id="@+id/logoUtamaHitam"
+            android:id="@+id/iv_logo_black"
             motion:layout_constraintEnd_toEndOf="parent"
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -99,7 +99,7 @@
             motion:layout_constraintTop_toTopOf="parent"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintLeft_toRightOf="@+id/logoUtama"
+            motion:layout_constraintLeft_toRightOf="@+id/iv_logo_main"
             android:layout_width="wrap_content"
             android:id="@+id/imageView5"
             android:scaleX="0.3"

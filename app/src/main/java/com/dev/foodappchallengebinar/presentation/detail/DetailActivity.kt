@@ -5,22 +5,16 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import coil.load
 import com.dev.foodappchallengebinar.R
-import com.dev.foodappchallengebinar.data.datasource.cart.CartDataSource
-import com.dev.foodappchallengebinar.data.datasource.cart.CartDatabaseDataSource
 import com.dev.foodappchallengebinar.data.models.Menu
-import com.dev.foodappchallengebinar.data.repository.CartRepository
-import com.dev.foodappchallengebinar.data.repository.CartRepositoryImpl
-import com.dev.foodappchallengebinar.data.source.local.database.AppDatabase
 import com.dev.foodappchallengebinar.databinding.ActivityDetailBinding
-import com.dev.foodappchallengebinar.presentation.cart.CartFragment
-import com.dev.foodappchallengebinar.utils.GenericViewModelFactory
 import com.dev.foodappchallengebinar.utils.proceedWhen
 import com.dev.foodappchallengebinar.utils.toIndonesianFormat
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var menu: Menu
@@ -28,19 +22,14 @@ class DetailActivity : AppCompatActivity() {
         ActivityDetailBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: DetailViewModel by viewModels {
-        val db = AppDatabase.getInstance(this)
-        val ds: CartDataSource = CartDatabaseDataSource(db.cartDao())
-        val rp: CartRepository = CartRepositoryImpl(ds)
-        GenericViewModelFactory.create(
-            DetailViewModel(intent?.extras, rp)
-        )
+    private val detailViewModel: DetailViewModel by viewModel {
+        parametersOf(intent.extras)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        bindMenu(viewModel.menu)
+        bindMenu(detailViewModel.menu)
         setClickListener()
         observeData()
     }
@@ -50,10 +39,10 @@ class DetailActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.layoutCart.ivMinus.setOnClickListener {
-            viewModel.minus()
+            detailViewModel.minus()
         }
         binding.layoutCart.ivPlus.setOnClickListener {
-            viewModel.add()
+            detailViewModel.add()
         }
         binding.svDetailFood.layoutLocation.cardLocation.setOnClickListener {
             openLocationOnMaps()
@@ -64,13 +53,14 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun addMenuToCart() {
-        viewModel.addToCart().observe(this) {
+        detailViewModel.addToCart().observe(this) {
             it.proceedWhen(
                 doOnSuccess = {
                     binding.pbLoading.isVisible = false
                     Toast.makeText(
                         this,
-                        getString(R.string.text_add_to_cart_success), Toast.LENGTH_SHORT
+                        getString(R.string.text_add_to_cart_success),
+                        Toast.LENGTH_SHORT,
                     ).show()
                     finish()
                 },
@@ -81,7 +71,7 @@ class DetailActivity : AppCompatActivity() {
                 },
                 doOnLoading = {
                     binding.pbLoading.isVisible = true
-                }
+                },
             )
         }
     }
@@ -112,18 +102,22 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.priceLiveData.observe(this) {
+        detailViewModel.priceLiveData.observe(this) {
             binding.layoutCart.btnAddToCart.isEnabled = it != 0.0
             binding.layoutCart.tvMenuPriceCount.text = it.toIndonesianFormat()
         }
-        viewModel.menuCountLiveData.observe(this) {
+        detailViewModel.menuCountLiveData.observe(this) {
             binding.layoutCart.tvCountNumber.text = it.toString()
         }
     }
 
     companion object {
         const val EXTRAS = "EXTRAS"
-        fun startActivity(context: Context, menu: Menu) {
+
+        fun startActivity(
+            context: Context,
+            menu: Menu,
+        ) {
             val intent = Intent(context, DetailActivity::class.java)
             intent.putExtra(EXTRAS, menu)
             context.startActivity(intent)

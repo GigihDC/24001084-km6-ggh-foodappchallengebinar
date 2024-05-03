@@ -9,7 +9,7 @@ import com.dev.foodappchallengebinar.utils.toIndonesianFormat
 
 class MenuGridItem(
     private val binding: ItemMenuGridBinding,
-    private val listener: OnItemClickedListener<Menu>
+    private val listener: OnItemClickedListener<Menu>,
 ) : ViewHolder(binding.root), ViewHolderBinder<Menu> {
     override fun bind(item: Menu) {
         item.let {

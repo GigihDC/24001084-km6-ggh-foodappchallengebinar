@@ -9,7 +9,7 @@ import com.dev.foodappchallengebinar.utils.toIndonesianFormat
 
 class MenuListItem(
     private val binding: ItemMenuListBinding,
-    private val listener: OnItemClickedListener<Menu>
+    private val listener: OnItemClickedListener<Menu>,
 ) : ViewHolder(binding.root), ViewHolderBinder<com.dev.foodappchallengebinar.data.models.Menu> {
     override fun bind(item: com.dev.foodappchallengebinar.data.models.Menu) {
         item.let {

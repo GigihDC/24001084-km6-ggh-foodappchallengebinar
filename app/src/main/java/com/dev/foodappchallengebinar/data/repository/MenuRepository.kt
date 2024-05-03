@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MenuRepository {
     fun getMenu(categoryName: String? = null): Flow<ResultWrapper<List<Menu>>>
+
     fun createOrder(menu: List<Cart>): Flow<ResultWrapper<Boolean>>
 }
 
@@ -22,16 +23,19 @@ class MenuRepositoryImpl(private val dataSource: FoodDataSource) : MenuRepositor
 
     override fun createOrder(menu: List<Cart>): Flow<ResultWrapper<Boolean>> {
         return proceedFlow {
-            dataSource.createOrder(CheckoutRequestPayload(
-                orders = menu.map {
-                    CheckoutItemPayload(
-                        notes = it.itemNotes,
-                        name = it.menuName,
-                        quantity = it.itemQuantity,
-                        price = it.menuPrice
-                    )
-                }
-            )).status ?: false
+            dataSource.createOrder(
+                CheckoutRequestPayload(
+                    orders =
+                        menu.map {
+                            CheckoutItemPayload(
+                                notes = it.itemNotes,
+                                name = it.menuName,
+                                quantity = it.itemQuantity,
+                                price = it.menuPrice,
+                            )
+                        },
+                ),
+            ).status ?: false
         }
     }
 }

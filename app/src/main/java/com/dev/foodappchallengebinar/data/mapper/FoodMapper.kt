@@ -10,9 +10,10 @@ fun FoodItemResponse?.toMenu() =
         price = this?.price ?: 0.0,
         imgUrl = this?.imgUrl.orEmpty(),
         desc = this?.desc.orEmpty(),
-        address = this?.address.orEmpty()
+        address = this?.address.orEmpty(),
     )
 
-fun Collection<FoodItemResponse>?.toMenu() = this?.map {
-    it.toMenu()
-} ?: listOf()
+fun Collection<FoodItemResponse>?.toMenu() =
+    this?.map {
+        it.toMenu()
+    } ?: listOf()

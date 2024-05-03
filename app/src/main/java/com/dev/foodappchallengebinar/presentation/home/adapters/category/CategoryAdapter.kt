@@ -8,10 +8,9 @@ import com.dev.foodappchallengebinar.data.models.Category
 import com.dev.foodappchallengebinar.databinding.ItemCategoryBinding
 
 class CategoryAdapter(
-    private val itemClick: (Category) -> Unit
+    private val itemClick: (Category) -> Unit,
 ) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
-
     private val data = mutableListOf<Category>()
 
     fun submitData(items: List<Category>) {
@@ -22,26 +21,31 @@ class CategoryAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
-
-        val binding = ItemCategoryBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int,
+    ): CategoryViewHolder {
+        val binding =
+            ItemCategoryBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false,
+            )
         return CategoryViewHolder(binding, itemClick)
-
     }
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: CategoryViewHolder,
+        position: Int,
+    ) {
         holder.bind(data[position])
     }
 
     class CategoryViewHolder(
         private val binding: ItemCategoryBinding,
-        val itemClick: (Category) -> Unit
+        val itemClick: (Category) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Category) {
