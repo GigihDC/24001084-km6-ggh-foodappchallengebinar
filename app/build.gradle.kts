@@ -59,6 +59,10 @@ android {
             )
         }
     }
+    packagingOptions {
+        exclude("META-INF/LICENSE.md")
+        exclude("META-INF/LICENSE-notice.md")
+    }
 }
 tasks.getByPath("preBuild").dependsOn("ktlintFormat")
 
@@ -106,4 +110,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    testImplementation(libs.mockk.agent)
+    androidTestImplementation(libs.mockk.android)
+    testImplementation(libs.coroutine.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.core.testing)
 }
