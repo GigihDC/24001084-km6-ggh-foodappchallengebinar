@@ -1,4 +1,4 @@
-package com.dev.foodappchallengebinar.presentation.login
+package com.dev.foodappchallengebinar.presentation.register
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.dev.foodappchallengebinar.data.repository.UserRepository
@@ -14,12 +14,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import org.junit.Assert
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class LoginViewModelTest {
+class RegisterViewModelTest {
     @get:Rule
     val testRule: TestRule = InstantTaskExecutorRule()
 
@@ -28,35 +29,37 @@ class LoginViewModelTest {
     val coroutineRule: TestRule = MainCoroutineRule(UnconfinedTestDispatcher())
 
     @MockK
-    lateinit var userRepository: UserRepository
+    lateinit var repo: UserRepository
 
-    private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModel: RegisterViewModel
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        viewModel = spyk(LoginViewModel(userRepository))
+        viewModel = spyk(RegisterViewModel(repo))
     }
 
     @Test
-    fun doLogin_success() {
+    fun doRegister_success() {
         val email = "example@example.com"
+        val fullName = "Test"
         val password = "password"
         val expectedResult = ResultWrapper.Success(true)
-        coEvery { userRepository.doLogin(email, password) } returns flow { emit(expectedResult) }
-        val result = viewModel.doLogin(email, password).getOrAwaitValue()
+        coEvery { repo.doRegister(email, fullName, password) } returns flow { emit(expectedResult) }
+        val result = viewModel.doRegister(email, fullName, password).getOrAwaitValue()
         Assert.assertTrue(result is ResultWrapper.Success)
     }
 
     @Test
-    fun doLogin_error() {
+    fun doRegister_error() {
         val email = "example@example.com"
+        val fullName = "Test"
         val password = "password"
-        val expectedException = Exception("Login Failed")
+        val expectedException = Exception("Register Failed")
         val expectedResult: ResultWrapper<Boolean> = ResultWrapper.Error(expectedException)
         val flowResult: Flow<ResultWrapper<Boolean>> = flow { emit(expectedResult) }
-        coEvery { userRepository.doLogin(email, password) } returns flowResult
-        val result = viewModel.doLogin(email, password).getOrAwaitValue()
+        coEvery { repo.doRegister(email, fullName, password) } returns flowResult
+        val result = viewModel.doRegister(email, fullName, password).getOrAwaitValue()
         Assert.assertTrue(result is ResultWrapper.Error)
     }
 }
