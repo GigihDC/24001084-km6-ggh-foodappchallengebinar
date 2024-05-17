@@ -20,7 +20,7 @@ interface AuthDataSource {
     ): Boolean
 
     suspend fun updateProfile(
-        fullName: String? = null,
+        fullName: String?,
         photoUri: Uri?,
     ): Boolean
 

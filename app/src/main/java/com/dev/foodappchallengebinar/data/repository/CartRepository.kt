@@ -12,9 +12,11 @@ import com.dev.foodappchallengebinar.utils.proceed
 import com.dev.foodappchallengebinar.utils.proceedFlow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import java.lang.Exception
 
 interface CartRepository {
     fun getUserCartData(): Flow<ResultWrapper<Pair<List<Cart>, Double>>>
@@ -52,6 +54,8 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                 // map to check when list is empty
                 if (it.payload?.first?.isEmpty() == false) return@map it
                 ResultWrapper.Empty(it.payload)
+            }.catch {
+                emit(ResultWrapper.Error(Exception(it)))
             }.onStart {
                 emit(ResultWrapper.Loading())
                 delay(2000)
@@ -73,6 +77,8 @@ class CartRepositoryImpl(private val cartDataSource: CartDataSource) : CartRepos
                 // map to check when list is empty
                 if (it.payload?.first?.isEmpty() == false) return@map it
                 ResultWrapper.Empty(it.payload)
+            }.catch {
+                emit(ResultWrapper.Error(Exception(it)))
             }.onStart {
                 emit(ResultWrapper.Loading())
                 delay(2000)

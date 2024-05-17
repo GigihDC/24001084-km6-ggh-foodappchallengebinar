@@ -16,7 +16,7 @@ class DetailViewModel(
     private val extras: Bundle?,
     private val cartRepository: CartRepository,
 ) : ViewModel() {
-    val menu = extras?.getParcelable<Menu>(DetailActivity.EXTRAS)
+    var menu = extras?.getParcelable<Menu>(DetailActivity.EXTRAS)
 
     val menuCountLiveData =
         MutableLiveData(0).apply {
