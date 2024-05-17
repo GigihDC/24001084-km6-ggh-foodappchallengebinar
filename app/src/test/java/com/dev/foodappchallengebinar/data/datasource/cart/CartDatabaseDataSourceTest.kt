@@ -12,7 +12,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
-import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
@@ -40,9 +39,9 @@ class CartDatabaseDataSourceTest {
         runTest {
             cartDataSource.getAllCarts().test {
                 val result = awaitItem()
-                assertEquals(listEntity.size, result.size)
-                assertEquals(entity1, result[0])
-                assertEquals(entity2, result[1])
+                Assert.assertEquals(listEntity.size, result.size)
+                Assert.assertEquals(entity1, result[0])
+                Assert.assertEquals(entity2, result[1])
                 awaitComplete()
             }
         }

@@ -5,11 +5,12 @@ import com.dev.foodappchallengebinar.data.source.firebase.FirebaseService
 import com.google.firebase.auth.FirebaseUser
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.assertEquals
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -31,7 +32,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.doLogin(email, password) } returns true
             val result = ds.doLogin(email, password)
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -43,7 +44,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.doRegister(email, fullName, password) } returns true
             val result = ds.doRegister(email, fullName, password)
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -53,16 +54,19 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.updateProfile(fullName) } returns true
             val result = ds.updateProfile(fullName, null)
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
     @Test
     fun updateProfile_is_null() {
+        val fullName = null
+        val photoUri = null
         runBlocking {
-            coEvery { service.updateProfile(null) } returns true
-            val result = ds.updateProfile(null, null)
-            assertEquals(true, result)
+            coEvery { service.updateProfile(fullName) } returns true
+            val result = ds.updateProfile(fullName, photoUri)
+            Assert.assertEquals(true, result)
+            coVerify(exactly = 1) { ds.updateProfile(fullName, photoUri) }
         }
     }
 
@@ -72,7 +76,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.updateEmail(newEmail) } returns true
             val result = ds.updateEmail(newEmail)
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -82,7 +86,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.updatePassword(newPassword) } returns true
             val result = ds.updatePassword(newPassword)
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -91,7 +95,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.requestChangePasswordByEmail() } returns true
             val result = ds.requestChangePasswordByEmail()
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -105,7 +109,7 @@ class FirebaseAuthDataSourceTest {
         every { firebaseUser.getEmail() } returns "newemail@example.com"
         every { firebaseUser.getPhoneNumber() } returns "newpassword"
         val result = runBlocking { ds.getCurrentUser() }
-        assertEquals(user, result)
+        Assert.assertEquals(user, result)
     }
 
     @Test
@@ -113,7 +117,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.isLoggedIn() } returns true
             val result = ds.isLoggedIn()
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 
@@ -122,7 +126,7 @@ class FirebaseAuthDataSourceTest {
         runBlocking {
             coEvery { service.doLogout() } returns true
             val result = ds.doLogout()
-            assertEquals(true, result)
+            Assert.assertEquals(true, result)
         }
     }
 }

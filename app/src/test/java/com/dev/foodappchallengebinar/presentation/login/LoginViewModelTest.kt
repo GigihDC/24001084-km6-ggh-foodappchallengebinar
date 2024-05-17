@@ -7,6 +7,7 @@ import com.dev.foodappchallengebinar.tools.getOrAwaitValue
 import com.dev.foodappchallengebinar.utils.ResultWrapper
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,7 +44,7 @@ class LoginViewModelTest {
         val email = "example@example.com"
         val password = "password"
         val expectedResult = ResultWrapper.Success(true)
-        coEvery { userRepository.doLogin(email, password) } returns flow { emit(expectedResult) }
+        every { userRepository.doLogin(email, password) } returns flow { emit(expectedResult) }
         val result = viewModel.doLogin(email, password).getOrAwaitValue()
         Assert.assertTrue(result is ResultWrapper.Success)
     }
